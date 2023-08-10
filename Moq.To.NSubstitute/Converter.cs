@@ -6,7 +6,7 @@ namespace Moq.To.NSubstitute;
 
 public class Converter  
 {
-    public Task ConvertProjectTests(string targetPath, string dotObjectChoice)
+    public Task ConvertProjectTests(string targetPath)
     {
         if (!Directory.Exists(targetPath))
         {
@@ -35,11 +35,7 @@ public class Converter
             replacedContent = ReplaceMockingKernelUsing(replacedContent);
             replacedContent = ReplaceMockingKernelGetMock(replacedContent);
             replacedContent = ReplaceSetup(replacedContent);
-
-            if (!string.IsNullOrEmpty(dotObjectChoice))
-            {
-                replacedContent = ReplaceDotObject(replacedContent);
-            }
+            replacedContent = ReplaceDotObject(replacedContent);
             
             if (content != replacedContent)
             {

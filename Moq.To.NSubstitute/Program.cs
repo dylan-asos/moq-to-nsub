@@ -9,9 +9,6 @@ Log.Logger = new LoggerConfiguration()
         "{Timestamp:HH:mm} [{Level}] : {JobName} ExecutionId - {ExecutionId}: {Message}{NewLine}{Exception}")
     .CreateLogger();
 
-Log.Information("Hello, dotnet OSS world!");
-Log.Information("Enjoying this tool? Don't forget to send me the money");
-
 var rootCommand = new RootCommand( "Moq to NSubstitute conversion tool")
 {
     Name = "moq2nsub",
@@ -27,18 +24,12 @@ var pathOption = new Option<string>(
     IsRequired = true
 };
 
-var objectOption = new Option<string>(
-    "--object-option",
-    description: "Replace .Object usages");
-
 conversionCommand.AddOption(pathOption);
-conversionCommand.AddOption(objectOption);
-
 var converter = new Converter();
 
 conversionCommand.SetHandler(
-    async (path, objectChoice) => { await converter.ConvertProjectTests(path, objectChoice); },
-    pathOption, objectOption);
+    async (path) => { await converter.ConvertProjectTests(path); },
+    pathOption);
 
 rootCommand.AddCommand(conversionCommand);
 
