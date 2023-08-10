@@ -51,7 +51,7 @@ public class Converter
     {
         var pattern = @"using\s+Moq;";
         var replacement = "using NSubstitute;";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -60,7 +60,7 @@ public class Converter
     {
         var pattern = @".Object";
         var replacement = "";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -69,7 +69,7 @@ public class Converter
     {
         var pattern = @"new\s+Mock<(.+?)>\((.*?)\)";
         var replacement = "Substitute.For<$1>($2)";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -78,7 +78,7 @@ public class Converter
     {
         var pattern = @"\bMock<(.+?)>";
         var replacement = "$1";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -87,11 +87,15 @@ public class Converter
     {
         var pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?), Times\.(Once(\(\))?|Exactly\((?<times>\d+)\))\)";
         var replacement = "$1.Received(${times})$3";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
+        pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?)";
+        replacement = "$1.Received()$3";
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);        
+        
         pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?), Times\.Never\)";
         replacement = "$1.DidNotReceive()$3";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         return replacedContent;
     }
@@ -100,7 +104,7 @@ public class Converter
     {
         var pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup\(((\w+) => \4(\..?.+?)\))\)\s*\n*\.Throws";
         var replacement = "$1.When($3).Throw";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -109,11 +113,11 @@ public class Converter
     {
         var pattern = @"It.IsAny";
         var replacement = "Arg.Any";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         pattern = @"It.Is";
         replacement = "Arg.Is";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         return replacedContent;
     }
@@ -122,7 +126,7 @@ public class Converter
     {
         var pattern = @"MoqMockingKernel";
         var replacement = "NSubstituteMockingKernel";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -131,7 +135,7 @@ public class Converter
     {
         var pattern = @"using\s+Ninject.MockingKernel.Moq;";
         var replacement = "using Ninject.MockingKernel.NSubstitute;";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
@@ -140,33 +144,36 @@ public class Converter
     {
         var pattern = @"\.GetMock<(.+?)>\(\)";
         var replacement = ".Get<(.+?)>()";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
         return replacedContent;
     }
-    
-    
+
     static string ReplaceSetup(string content)
     {
         var pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup(Get)?\((\w+) => \4(\.?.+?)\)(?=\.R|\s\n)";
         var replacement = "$1$5";
-        var replacedContent = Regex.Replace(content, pattern, replacement);
+        var replacedContent = Regex.Replace(content, pattern, replacement, RegexOptions.Singleline);
 
+        pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup(Get)?\((\w+) => \4(\.?.+?)(?=\.R|\s\n).ReturnsAsync(..?.+?\))";
+        replacement = "$1$5.Returns(Task.FromResult$6)";
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
+        
         pattern = @"\.Get<(.+?)>\(\)\.Setup\((\w+) => \2(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @".Get<$1>()$3";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         pattern = @"\.Get<(.+?)>\(\)\.SetupSequence?\((\w+) => \3(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @".Get<$1>()$3";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.SetupSequence?\((\w+) => \3(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @"$1$4";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         pattern = @"\.Get<(.+?)>\(\)\.SetupSequence?\((\w+) => \2(\.?.+?)(\)(?!\)))";
         replacement = @".Get<$1>()$3";
-        replacedContent = Regex.Replace(replacedContent, pattern, replacement);
+        replacedContent = Regex.Replace(replacedContent, pattern, replacement, RegexOptions.Singleline);
         
         return replacedContent;
     }
