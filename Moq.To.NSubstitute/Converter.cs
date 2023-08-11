@@ -77,6 +77,9 @@ public class Converter
         var replacement = "Substitute.For<$1>($2)";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
+        pattern = @"Mock.Of<(.+?)>\((.*?)\)";
+        replacedContent = replacedContent.RegexReplace(pattern, replacement);
+        
         return replacedContent;
     }
     
