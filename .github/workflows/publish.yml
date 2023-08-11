@@ -15,11 +15,11 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   NuGetDirectory: ${{ github.workspace}}/nuget
+  ProjectDirectory: ${{ github.workspace}}/Moq.To.NSubstitute
 
 defaults:
   run:
     shell: pwsh
-    working-directory: /Moq.To.NSubstitute
 
 jobs:
   create_nuget:
@@ -28,6 +28,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
+    - run: cd ${{ env.ProjectDirectory }}  
     - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
     - uses: actions/upload-artifact@v3
       with:
