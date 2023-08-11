@@ -39,7 +39,7 @@ jobs:
     # Publish only when creating a release
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
-    needs: [ validate_nuget, run_test ]
+    needs: [ create_nuget ]
     steps:
     - uses: actions/download-artifact@v3
       with:
