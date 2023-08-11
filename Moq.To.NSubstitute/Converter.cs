@@ -44,7 +44,7 @@ public class Converter
             }
         }
         
-        Log.Information("Conversion complete....");
+        Log.Information("Conversion complete....updating nuget package references");
 
         var packageInstaller = new PackageInstaller(targetPath);
         packageInstaller.RemoveMoq();
