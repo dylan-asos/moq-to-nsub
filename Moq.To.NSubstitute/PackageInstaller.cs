@@ -19,7 +19,7 @@ public class PackageInstaller
     
     public void AddNSubstitute()
     {
-        RunDotNet(_targetPath,"add package NSubstitute");
+        RunDotNet(_targetPath,"add package NSubstitute --version 5.0.0");
     }
     
     public void RunDotNet(string directory, string command)
