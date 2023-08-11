@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Moq2NSubstitute;
 
-public class Converter  
+public class Converter
 {
     public Task ConvertProjectTests(string targetPath)
     {
@@ -12,7 +12,7 @@ public class Converter
             Log.Error("Path {TargetPath} does not exist", targetPath);
             return Task.CompletedTask;
         }
-        
+
         var projectFiles = Directory.GetFiles(targetPath, "*.cs", SearchOption.AllDirectories);
         Log.Information("Found {FileCount} files to convert", projectFiles.Length);
 
@@ -20,11 +20,12 @@ public class Converter
         {
             string content;
             Encoding encoding;
-            using (var reader = new StreamReader(file)) {
+            using (var reader = new StreamReader(file))
+            {
                 content = reader.ReadToEnd();
                 encoding = reader.CurrentEncoding;
             }
-            
+
             var replacedContent = ReplaceUsingStatements(content);
             replacedContent = ReplaceMockCreation(replacedContent);
             replacedContent = ReplaceInstanceData(replacedContent);
@@ -36,20 +37,20 @@ public class Converter
             replacedContent = ReplaceMockingKernelGetMock(replacedContent);
             replacedContent = ReplaceSetup(replacedContent);
             replacedContent = ReplaceDotObject(replacedContent);
-            
+
             if (content != replacedContent)
             {
                 File.WriteAllText(file, replacedContent, encoding);
                 Log.Information("Modified: {File}", file);
             }
         }
-        
+
         Log.Information("Conversion complete....updating nuget package references");
 
         var packageInstaller = new PackageInstaller(targetPath);
         packageInstaller.RemoveMoq();
         packageInstaller.AddNSubstitute();
-        
+
         return Task.CompletedTask;
     }
 
@@ -79,7 +80,7 @@ public class Converter
 
         pattern = @"Mock.Of<(.+?)>\((.*?)\)";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         return replacedContent;
     }
 
@@ -100,12 +101,12 @@ public class Converter
 
         pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?)\)\)";
         replacement = "$1.Received()$3)";
-        replacedContent = replacedContent.RegexReplace(pattern, replacement);    
-        
+        replacedContent = replacedContent.RegexReplace(pattern, replacement);
+
         pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?), Times\.Never\)";
         replacement = "$1.DidNotReceive()$3";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         return replacedContent;
     }
 
@@ -127,7 +128,7 @@ public class Converter
         pattern = @"It.Is";
         replacement = "Arg.Is";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         return replacedContent;
     }
 
@@ -167,25 +168,23 @@ public class Converter
         pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup(Get)?\((\w+) => \4(\.?.+?)\).ReturnsAsync(..?.+?\))";
         replacement = "$1$5.Returns(Task.FromResult$6)";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         pattern = @"\.Get<(.+?)>\(\)\.Setup\((\w+) => \2(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @".Get<$1>()$3";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         pattern = @"\.Get<(.+?)>\(\)\.SetupSequence?\((\w+) => \3(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @".Get<$1>()$3";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.SetupSequence?\((\w+) => \3(\.?.+?)\)(?=\.R|\s\n)";
         replacement = @"$1$4";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         pattern = @"\.Get<(.+?)>\(\)\.SetupSequence?\((\w+) => \2(\.?.+?)(\)(?!\)))";
         replacement = @".Get<$1>()$3";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
-        
+
         return replacedContent;
     }
-    
-    
 }

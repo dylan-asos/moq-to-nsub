@@ -9,17 +9,17 @@ Log.Logger = new LoggerConfiguration()
         "{Timestamp:HH:mm} [{Level}] : {JobName} ExecutionId - {ExecutionId}: {Message}{NewLine}{Exception}")
     .CreateLogger();
 
-var rootCommand = new RootCommand( "Moq to NSubstitute conversion tool")
+var rootCommand = new RootCommand("Moq to NSubstitute conversion tool")
 {
-    Name = "moq2nsub",
+    Name = "moq2nsub"
 };
 
-var conversionCommand = 
+var conversionCommand =
     new Command("convert", "Converts a dotnet test project from using Moq to NSubstitute");
 
 var pathOption = new Option<string>(
     "--project-path",
-    description: "Target path that contains test project to convert.")
+    "Target path that contains test project to convert.")
 {
     IsRequired = true
 };
@@ -28,7 +28,7 @@ conversionCommand.AddOption(pathOption);
 var converter = new Converter();
 
 conversionCommand.SetHandler(
-    async (path) => { await converter.ConvertProjectTests(path); },
+    async path => { await converter.ConvertProjectTests(path); },
     pathOption);
 
 rootCommand.AddCommand(conversionCommand);

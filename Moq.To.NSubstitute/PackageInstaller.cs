@@ -14,14 +14,14 @@ public class PackageInstaller
 
     public void RemoveMoq()
     {
-        RunDotNet(_targetPath,"remove package moq");
+        RunDotNet(_targetPath, "remove package moq");
     }
-    
+
     public void AddNSubstitute()
     {
-        RunDotNet(_targetPath,"add package NSubstitute --version 5.0.0");
+        RunDotNet(_targetPath, "add package NSubstitute --version 5.0.0");
     }
-    
+
     public void RunDotNet(string directory, string command)
     {
         var process = new Process();
@@ -38,19 +38,19 @@ public class PackageInstaller
         };
         process.StartInfo = startInfo;
         process.Start();
-        
+
         var output = process.StandardOutput.ReadToEnd();
         if (!string.IsNullOrEmpty(output))
         {
             Log.Information(output);
         }
-        
+
         var err = process.StandardError.ReadToEnd();
         if (!string.IsNullOrEmpty(err))
         {
             Log.Error(err);
         }
-        
+
         process.WaitForExit();
     }
 }

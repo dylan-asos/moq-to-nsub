@@ -8,9 +8,10 @@ Super simple tool for converting a test project from moq to nsubstitute
 
 A command line tool with a single command, `convert`
 
-Give it a path that contains test files, it'll perform some regex replaces to switch syntax to NSubstitute. 
+Give it a path that contains test files, it'll perform some regex replaces to switch syntax to NSubstitute.
 
-Many thanks to `@AlbertoMonteiro` for the RegEx work at [https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7](https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7)
+Many thanks to `@AlbertoMonteiro` for the RegEx work
+at [https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7](https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7)
 
 ## Usage
 
