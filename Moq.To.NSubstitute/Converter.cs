@@ -64,8 +64,8 @@ public class Converter
     
     static string ReplaceDotObject(string content)
     {
-        var pattern = @".Object";
-        var replacement = "";
+        const string pattern = @".Object";
+        const string replacement = "";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
@@ -74,7 +74,7 @@ public class Converter
     static string ReplaceMockCreation(string content)
     {
         var pattern = @"new\s+Mock<(.+?)>\((.*?)\)";
-        var replacement = "Substitute.For<$1>($2)";
+        const string replacement = "Substitute.For<$1>($2)";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         pattern = @"Mock.Of<(.+?)>\((.*?)\)";
@@ -85,8 +85,8 @@ public class Converter
     
     static string ReplaceInstanceData(string content)
     {
-        var pattern = @"\bMock<(.+?)>";
-        var replacement = "$1";
+        const string pattern = @"\bMock<(.+?)>";
+        const string replacement = "$1";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
@@ -111,8 +111,8 @@ public class Converter
     
     static string ReplaceThrows(string content)
     {
-        var pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup\(((\w+) => \4(\..?.+?)\))\)\s*\n*\.Throws";
-        var replacement = "$1.When($3).Throw";
+        const string pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup\(((\w+) => \4(\..?.+?)\))\)\s*\n*\.Throws";
+        const string replacement = "$1.When($3).Throw";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
@@ -133,8 +133,8 @@ public class Converter
     
     static string ReplaceMockingKernel(string content)
     {
-        var pattern = @"MoqMockingKernel";
-        var replacement = "NSubstituteMockingKernel";
+        const string pattern = @"MoqMockingKernel";
+        const string replacement = "NSubstituteMockingKernel";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
@@ -142,8 +142,8 @@ public class Converter
     
     static string ReplaceMockingKernelUsing(string content)
     {
-        var pattern = @"using\s+Ninject.MockingKernel.Moq;";
-        var replacement = "using Ninject.MockingKernel.NSubstitute;";
+        const string pattern = @"using\s+Ninject.MockingKernel.Moq;";
+        const string replacement = "using Ninject.MockingKernel.NSubstitute;";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
@@ -151,8 +151,8 @@ public class Converter
     
     static string ReplaceMockingKernelGetMock(string content)
     {
-        var pattern = @"\.GetMock<(.+?)>\(\)";
-        var replacement = ".Get<(.+?)>()";
+        const string pattern = @"\.GetMock<(.+?)>\(\)";
+        const string replacement = ".Get<(.+?)>()";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
