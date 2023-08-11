@@ -20,7 +20,17 @@ The root command is named `moq2nsub`, Only one sub-command is available at this 
 ``` bash
 moq2nsub convert --project-path C:\src\my-path-that-contains-unit-tests 
 ```
+`--project-path` - should be the path where a csproj file exists that contains unit tests. 
+
+## What does this do?
+
+The tool will scan the path you provide for all *.cs files, and will then run a number of find and replace regular expressions
+to convert from Moq syntax to NSubstitute. After performing find and replace operations, it will run a dotnet command to uninstall
+moq and install nsubstitute.
+
+`Important` - make sure your files are source controlled. The tool will overwrite files with the changes, so have a simple rollback 
+plan if you don't like the output
 
 ## Contributing
 
-Any contributions welcome
+Any contributions welcome, especially any new Regex
