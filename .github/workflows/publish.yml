@@ -35,6 +35,16 @@ jobs:
         token: ${{ github.token }}
         branch: main
         noVersionBumpBehavior: current
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
+            sha: context.sha
+          })        
     - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
     - name: Publish NuGet package
       run: |
