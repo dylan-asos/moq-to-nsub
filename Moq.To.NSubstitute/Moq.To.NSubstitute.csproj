@@ -6,6 +6,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Converts Moq syntax to NSubstitute</Title>
+        <Authors>dylan-asos</Authors>
+        <Description>Converts Moq syntax to NSubstitute</Description>
+        <PackageProjectUrl>https://github.com/dylan-asos/moq-to-nsub</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/dylan-asos/moq-to-nsub</RepositoryUrl>
+        <PackageTags>moq;nsubstitute</PackageTags>
+        <Version>1.0.0-beta</Version>
     </PropertyGroup>
 
     <ItemGroup>
