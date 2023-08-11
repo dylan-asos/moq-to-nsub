@@ -16,7 +16,12 @@
         <RepositoryUrl>https://github.com/dylan-asos/moq-to-nsub</RepositoryUrl>
         <PackageTags>moq;nsubstitute</PackageTags>
         <Version>1.0.0-beta</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" PackagePath="." />
+    </ItemGroup>
     
     <ItemGroup>
       <PackageReference Include="Serilog" Version="3.0.1" />
