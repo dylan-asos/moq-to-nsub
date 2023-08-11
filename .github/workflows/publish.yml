@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
-    - run: dotnet pack  ${{ $GITHUB_WORKSPACE }}/Moq.To.NSubstitute/Moq.To.NSubstitute.csproj --configuration Release --output ${{ env.NuGetDirectory }}
+    - run: dotnet pack  $GITHUB_WORKSPACE/Moq.To.NSubstitute/Moq.To.NSubstitute.csproj --configuration Release --output ${{ env.NuGetDirectory }}
     - uses: actions/upload-artifact@v3
       with:
         name: nuget
