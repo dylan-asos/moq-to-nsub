@@ -51,18 +51,18 @@ public class Converter
         packageInstaller.AddNSubstitute();
         
         return Task.CompletedTask;
-    }    
-    
-    static string ReplaceUsingStatements(string content)
+    }
+
+    private static string ReplaceUsingStatements(string content)
     {
-        var pattern = @"using\s+Moq;";
-        var replacement = "using NSubstitute;";
+        const string pattern = @"using\s+Moq;";
+        const string replacement = "using NSubstitute;";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
         return replacedContent;
     }
-    
-    static string ReplaceDotObject(string content)
+
+    private static string ReplaceDotObject(string content)
     {
         const string pattern = @".Object";
         const string replacement = "";
@@ -70,8 +70,8 @@ public class Converter
 
         return replacedContent;
     }
-    
-    static string ReplaceMockCreation(string content)
+
+    private static string ReplaceMockCreation(string content)
     {
         var pattern = @"new\s+Mock<(.+?)>\((.*?)\)";
         const string replacement = "Substitute.For<$1>($2)";
@@ -82,8 +82,8 @@ public class Converter
         
         return replacedContent;
     }
-    
-    static string ReplaceInstanceData(string content)
+
+    private static string ReplaceInstanceData(string content)
     {
         const string pattern = @"\bMock<(.+?)>";
         const string replacement = "$1";
@@ -91,8 +91,8 @@ public class Converter
 
         return replacedContent;
     }
-    
-    static string ReplaceVerifies(string content)
+
+    private static string ReplaceVerifies(string content)
     {
         var pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?), Times\.(Once(\(\))?|Exactly\((?<times>\d+)\))\)";
         var replacement = "$1.Received(${times})$3";
@@ -108,8 +108,8 @@ public class Converter
         
         return replacedContent;
     }
-    
-    static string ReplaceThrows(string content)
+
+    private static string ReplaceThrows(string content)
     {
         const string pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup\(((\w+) => \4(\..?.+?)\))\)\s*\n*\.Throws";
         const string replacement = "$1.When($3).Throw";
@@ -117,8 +117,8 @@ public class Converter
 
         return replacedContent;
     }
-    
-    static string ReplaceArgs(string content)
+
+    private static string ReplaceArgs(string content)
     {
         var pattern = @"It.IsAny";
         var replacement = "Arg.Any";
@@ -130,8 +130,8 @@ public class Converter
         
         return replacedContent;
     }
-    
-    static string ReplaceMockingKernel(string content)
+
+    private static string ReplaceMockingKernel(string content)
     {
         const string pattern = @"MoqMockingKernel";
         const string replacement = "NSubstituteMockingKernel";
@@ -139,8 +139,8 @@ public class Converter
 
         return replacedContent;
     }
-    
-    static string ReplaceMockingKernelUsing(string content)
+
+    private static string ReplaceMockingKernelUsing(string content)
     {
         const string pattern = @"using\s+Ninject.MockingKernel.Moq;";
         const string replacement = "using Ninject.MockingKernel.NSubstitute;";
@@ -148,8 +148,8 @@ public class Converter
 
         return replacedContent;
     }
-    
-    static string ReplaceMockingKernelGetMock(string content)
+
+    private static string ReplaceMockingKernelGetMock(string content)
     {
         const string pattern = @"\.GetMock<(.+?)>\(\)";
         const string replacement = ".Get<(.+?)>()";
@@ -158,7 +158,7 @@ public class Converter
         return replacedContent;
     }
 
-    static string ReplaceSetup(string content)
+    private static string ReplaceSetup(string content)
     {
         var pattern = @"(?<!\.)\b(\w+)(\s\n\s*)?\.Setup(Get)?\((\w+) => \4(\.?.+?)\)(?=\.R|\s\n)";
         var replacement = "$1$5";
