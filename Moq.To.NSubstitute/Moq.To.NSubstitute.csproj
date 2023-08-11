@@ -6,7 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Converts Moq syntax to NSubstitute</Title>
         <Authors>dylan-asos</Authors>
         <Description>Converts Moq syntax to NSubstitute</Description>
