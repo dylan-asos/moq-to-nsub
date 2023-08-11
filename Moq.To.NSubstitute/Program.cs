@@ -1,5 +1,5 @@
 ﻿using System.CommandLine;
-using Moq.To.NSubstitute;
+using Moq2NSubstitute;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Serilog;
 
-namespace Moq.To.NSubstitute;
+namespace Moq2NSubstitute;
 
 public class PackageInstaller
 {

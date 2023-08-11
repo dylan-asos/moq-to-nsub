@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Moq.To.NSubstitute;
+namespace Moq2NSubstitute;
 
 public static class FindAndReplace
 {

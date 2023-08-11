@@ -1,7 +1,7 @@
 using System.Text;
 using Serilog;
 
-namespace Moq.To.NSubstitute;
+namespace Moq2NSubstitute;
 
 public class Converter  
 {
