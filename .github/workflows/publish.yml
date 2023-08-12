@@ -51,7 +51,8 @@ jobs:
               sha: context.sha
             })             
           }
-          } catch (error) {
+          catch (error) {
+              echo "failed to create ref, continuing..."
           }      
     - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
     - name: Publish NuGet package
