@@ -48,9 +48,16 @@ public class Converter
         Log.Information("Conversion complete....updating nuget package references");
 
         var packageInstaller = new PackageInstaller(targetPath);
-        packageInstaller.RemoveMoq();
-        packageInstaller.AddNSubstitute();
-
+        if (packageInstaller.DoesProjectFileExist())
+        {
+            packageInstaller.RemoveMoq();
+            packageInstaller.AddNSubstitute();  
+        }
+        else
+        {
+            Log.Warning("No project file found in {TargetPath}, so skipping installing NSubstitute package - you'll still need to do that", targetPath);
+        }
+        
         return Task.CompletedTask;
     }
 

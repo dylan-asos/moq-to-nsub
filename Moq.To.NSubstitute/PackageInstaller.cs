@@ -21,6 +21,13 @@ public class PackageInstaller
     {
         RunDotNet(_targetPath, "add package NSubstitute --version 5.0.0");
     }
+    
+    public bool DoesProjectFileExist()
+    {
+        var files = Directory.GetFiles(_targetPath, "*.csproj", SearchOption.TopDirectoryOnly);
+
+        return files.Length > 0;
+    }
 
     public void RunDotNet(string directory, string command)
     {

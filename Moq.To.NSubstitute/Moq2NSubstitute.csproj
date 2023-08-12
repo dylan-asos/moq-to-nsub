@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>moq2nsub</ToolCommandName>
@@ -18,16 +17,17 @@
         <PackageTags>moq;nsubstitute</PackageTags>
         <Version>1.0.0-beta</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="../README.md" Pack="true" PackagePath="."/>
+        <None Include="../README.md" Pack="true" PackagePath="." />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog" Version="3.0.1"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1"/>
+        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
 
 </Project>
