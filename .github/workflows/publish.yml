@@ -52,6 +52,7 @@ jobs:
             })             
           }
           catch (error) {
+            exit 0
           }      
     - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
     - name: Publish NuGet package
