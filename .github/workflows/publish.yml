@@ -43,13 +43,16 @@ jobs:
 
       with:
         script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
-            sha: context.sha
-          })
-          exit 1
+          try {
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
+              sha: context.sha
+            })             
+          }
+          } catch (error) {
+          }      
     - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
     - name: Publish NuGet package
       run: |
