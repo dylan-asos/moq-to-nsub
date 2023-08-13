@@ -50,8 +50,11 @@ jobs:
               ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
               sha: context.sha
             })             
-  
-    - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
+
+    - name: Build and Pack
+      run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
+      if: steps.semver.outputs.nextStrict
+      
     - name: Publish NuGet package
       if: steps.semver.outputs.nextStrict
       run: |
