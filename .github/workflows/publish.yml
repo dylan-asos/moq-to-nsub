@@ -38,22 +38,22 @@ jobs:
         token: ${{ github.token }}
         branch: main
         noVersionBumpBehavior: current
+    - name: 'Check: package version has corrosponding git tag'
+      id: tagged
+      shell: bash
+      run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"        
     - name: Create tag
       uses: actions/github-script@v5
-
+      if: steps.tagged.outputs.tagged == 1
       with:
         script: |
-          try {
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
               sha: context.sha
             })             
-          }
-          catch (error) {
-            exit 0
-          }      
+  
     - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
     - name: Publish NuGet package
       run: |
