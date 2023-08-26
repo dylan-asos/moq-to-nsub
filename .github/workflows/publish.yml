@@ -37,21 +37,27 @@ jobs:
       with:
         token: ${{ github.token }}
         branch: main
-        noVersionBumpBehavior: current
+        noVersionBumpBehavior: warn
+      
     - name: Create tag
       uses: actions/github-script@v5
-
+      if: steps.semver.outputs.nextStrict
       with:
         script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
-            sha: context.sha
-          })        
-    - run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.semver.outputs.nextStrict }}',
+              sha: context.sha
+            })             
+
+    - name: Build and Pack
+      run: dotnet pack Moq.To.NSubstitute/Moq2NSubstitute.csproj -p:PackageVersion=${{ steps.semver.outputs.nextStrict }} --configuration Release --output ${{ env.NuGetDirectory }}
+      if: steps.semver.outputs.nextStrict
+      
     - name: Publish NuGet package
+      if: steps.semver.outputs.nextStrict
       run: |
         foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-            dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json
+            dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
         }

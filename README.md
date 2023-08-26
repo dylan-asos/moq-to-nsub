@@ -2,7 +2,9 @@
 
 ## What is this?
 
-Super simple tool for converting a test project from moq to nsubstitute
+Simple tool for converting a test project from moq to nsubstitute
+
+Published as a dotnet tool to nuget at https://www.nuget.org/packages/Moq2NSubstitute
 
 ## What's included
 
@@ -10,17 +12,19 @@ A command line tool with a single command, `convert`
 
 Give it a path that contains test files, it'll perform some regex replaces to switch syntax to NSubstitute.
 
-Many thanks to `@AlbertoMonteiro` for the RegEx work
-at [https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7](https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7)
+Many thanks to `@AlbertoMonteiro` for the RegEx work at [https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7](https://gist.github.com/AlbertoMonteiro/daeab549df57727ddaa7)
 
 ## Usage
 
-The root command is named `moq2nsub`, Only one sub-command is available at this time
+The root command is named `moq2nsub`, only one sub-command is available
 
 ``` bash
 moq2nsub convert --project-path C:\src\my-path-that-contains-unit-tests 
 ```
 `--project-path` - should be the path where a csproj file exists that contains unit tests. 
+
+`This tool amends the files it finds, applies the regex and saves the results, so make sure you've got your files source controlled for easy
+rollback if you don't like the results `
 
 ## What does this do?
 
@@ -33,4 +37,7 @@ plan if you don't like the output
 
 ## Contributing
 
-Any contributions welcome, especially any new Regex
+Any contributions welcome, especially any new Regex!
+
+
+
