@@ -72,7 +72,7 @@ public class Converter
 
     private static string ReplaceDotObject(string content)
     {
-        const string pattern = @".Object";
+        const string pattern = @"\.\bObject\b";
         const string replacement = "";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
