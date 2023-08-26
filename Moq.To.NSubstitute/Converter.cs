@@ -106,12 +106,12 @@ public class Converter
         var replacement = "$1.Received(${times})$3";
         var replacedContent = content.RegexReplace(pattern, replacement);
 
-        pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?)\)\)";
-        replacement = "$1.Received()$3)";
-        replacedContent = replacedContent.RegexReplace(pattern, replacement);
-
         pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?), Times\.Never\)";
         replacement = "$1.DidNotReceive()$3";
+        replacedContent = replacedContent.RegexReplace(pattern, replacement);
+
+        pattern = @"(?<!\.)\b(\w+)\.Verify\((\w+) => \2(.+?)\)\)";
+        replacement = "$1.Received()$3)";
         replacedContent = replacedContent.RegexReplace(pattern, replacement);
 
         return replacedContent;
